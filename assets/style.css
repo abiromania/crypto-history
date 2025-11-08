@@ -1,12 +1,53 @@
-body{
+body {
     background-image: linear-gradient(to right, #130046, #0041a3);
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
 }
 
-h1{
+.dashboard-container {
+    width: 95% !important;
+    margin: 20px auto !important;
+    padding: 20px !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 15px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 20px !important;
+}
+
+.graph {
+    flex: 1 1 400px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+h1 {
     color: #ffffff;
     font-family: 'Calibri', sans-serif;
     text-align: center;
 }
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+}
+
+div.dashboard-container {
+    width: 95% !important;
+    margin: 20px auto !important;
+    padding: 20px !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 15px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 20px !important;
+}
+
 
 
 /* Checklist style */
@@ -38,8 +79,6 @@ h1{
     height: 18px !important;
     border: 2px solid #ffffff !important;
     border-radius: 4px !important;
-    background-color: transparent !important;
-    cursor: pointer !important;
     vertical-align: middle !important;
 }
 
@@ -47,4 +86,52 @@ h1{
     background-color: #00aeff !important;
     border-color: #ffffff !important;
     position: relative !important;
+}
+
+/* Radio button styles */
+.radio-items {
+    margin: 30px !important;
+    padding: 10px !important;
+    background-color: rgba(19, 0, 70, 0.3) !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    justify-content: center !important;
+}
+
+.radio-items label {
+    color: rgb(255, 255, 255) !important;
+    font-family: 'Calibri', sans-serif !important;
+    font-size: 16px !important;
+    margin-right: 10px !important;
+    vertical-align: middle !important;
+}
+
+.radio-items input[type="radio"] {
+
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 18px !important;
+    height: 18px !important;
+    border: 3px solid #ffffff !important;
+    border-radius: 50% !important;
+    vertical-align: middle !important;
+}
+
+.radio-items input[type="radio"]:checked {
+    background-color: #00aeff !important;
+    border-color: #00aeff !important;
+    position: relative !important;
+}
+
+
+/* Graph styles */
+.graph {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    margin: 10px;
 }
