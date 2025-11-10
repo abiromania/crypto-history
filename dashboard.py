@@ -6,6 +6,9 @@ import plotly.graph_objects as go
 
 # Reading CSV file into a DataFrame
 df = pd.read_csv('crypto_history.csv')
+# Converts date column to datetime
+df['date'] = pd.to_datetime(df['date'])
+
 
 # Creating a Dash application
 app = Dash(__name__)
@@ -15,17 +18,31 @@ app = Dash(__name__)
 app.layout = html.Div(children=[
     html.H1(children='Crypto Historical Data Dashboard'),
    
-    # Crypto filter, pie and line charts
-    dcc.Checklist(
-        id='crypto-selector',
-        options=[{'label': crypto, 'value': crypto} for crypto in df['ticker'].unique()],
-        value=[df['ticker'].unique()[2]],  # Default selection
-        className='checklist'
-    ),
+    # Crypto selector + Date range
+    html.Div(children=[
+        # Crypto selector
+        dcc.Checklist(
+            id='crypto-selector',
+            options=[{'label': crypto, 'value': crypto} for crypto in df['ticker'].unique()],
+            value=[df['ticker'].unique()[2]],
+            className='checklist'
+        ),
 
+        # Date range picker
+        dcc.DatePickerRange(
+            id='date-picker',
+            start_date=df['date'].min(),
+            end_date=df['date'].max(),
+            className='date-picker'
+        )
+    ], className='controls'),
+
+
+    # Line and pie charts
     html.Div(children=[
         dcc.Graph(id='line-chart', figure={}, className='graph'),
         dcc.Graph(id='pie-chart', figure={}, className='graph'),
+
     ], className='dashboard-container'),
     
 
@@ -40,6 +57,72 @@ app.layout = html.Div(children=[
         dcc.Graph(id='candlestick-chart', figure={}, className='graph')
     ], className='dashboard-container')
 ])
+    
+
+
+# Updates line and pie charts
+@app.callback(
+    Output('line-chart', 'figure'),
+    Output('pie-chart', 'figure'),
+    Input('crypto-selector', 'value'),
+    Input('date-picker', 'start_date'),
+    Input('date-picker', 'end_date')
+)
+
+def update_charts(selected_cryptos, start_date, end_date):
+    # Filter selected cryptos
+    filtered_df = df[df['ticker'].isin(selected_cryptos)].copy()
+    #Filter start and end date
+    filtered_df = filtered_df[(filtered_df['date'] >= start_date) & (filtered_df['date'] <= end_date)]
+    # Calculate mean price
+    filtered_df['mean'] = (filtered_df['high'] + filtered_df['low']) / 2
+    
+
+
+    # Create line chart
+    fig_line = px.line(filtered_df,
+                       x='date',
+                       y='mean',
+                       color='ticker',
+                       title='Average Crypto Prices Over Time')
+
+    fig_line.update_layout(
+        plot_bgcolor='rgba(255, 255, 255, 0.1)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        font_color='white',
+        title_font_color='white',
+        title_x=0.5,
+        legend_font_color='white',
+        xaxis=dict(
+            gridcolor='rgba(255, 255, 255, 0.1)',
+            zerolinecolor='white',
+        ),
+        yaxis=dict(
+            gridcolor='rgba(255, 255, 255, 0.2)',
+            zerolinecolor='white',
+        )
+    )
+
+
+
+    # Create pie chart
+    fig_pie = px.pie(filtered_df, 
+                     values='mean',
+                     names='ticker',
+                     title='Average Prices Distribution')
+
+    fig_pie.update_layout(
+        plot_bgcolor='rgba(255, 255, 255, 0.1)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        font_color='white',
+        title_font_color='white',
+        title_x=0.5,
+        legend_font_color='white',
+    )
+
+
+    return fig_line, fig_pie
+
 
 
 
@@ -81,61 +164,7 @@ def update_line_chart(candlestick_value):
     )
 
     return fig_candlestick
-    
 
-
-# Updates line and pie charts
-@app.callback(
-    Output('line-chart', 'figure'),
-    Output('pie-chart', 'figure'),
-    Input('crypto-selector', 'value')
-)
-
-def update_charts(selected_cryptos):
-    filtered_df = df[df['ticker'].isin(selected_cryptos)].copy()
-    filtered_df['mean'] = (filtered_df['high'] + filtered_df['low']) / 2
-
-    # Create line chart
-    fig_line = px.line(filtered_df,
-                       x='date',
-                       y='mean',
-                       color='ticker',
-                       title='Average Crypto Prices Over Time')
-
-    fig_line.update_layout(
-        plot_bgcolor='rgba(255, 255, 255, 0.1)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        font_color='white',
-        title_font_color='white',
-        title_x=0.5,
-        legend_font_color='white',
-        xaxis=dict(
-            gridcolor='rgba(255, 255, 255, 0.1)',
-            zerolinecolor='white',
-        ),
-        yaxis=dict(
-            gridcolor='rgba(255, 255, 255, 0.2)',
-            zerolinecolor='white',
-        )
-    )
-
-    # Create pie chart
-    fig_pie = px.pie(filtered_df, 
-                     values='mean',
-                     names='ticker',
-                     title='Average Prices Distribution')
-
-    fig_pie.update_layout(
-        plot_bgcolor='rgba(255, 255, 255, 0.1)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        font_color='white',
-        title_font_color='white',
-        title_x=0.5,
-        legend_font_color='white',
-    )
-
-
-    return fig_line, fig_pie
 
 
 

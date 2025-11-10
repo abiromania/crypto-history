@@ -5,36 +5,22 @@ body {
     overflow-x: hidden !important;
 }
 
-.dashboard-container {
-    width: 95% !important;
-    margin: 20px auto !important;
-    padding: 20px !important;
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border-radius: 15px !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 20px !important;
-}
-
-.graph {
-    flex: 1 1 400px !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-}
-
 h1 {
     color: #ffffff;
     font-family: 'Calibri', sans-serif;
     text-align: center;
 }
 
-body {
+
+
+.graph {
+    flex: 1 1 45% !important;
+    min-width: 400px !important;
     margin: 0 !important;
-    padding: 0 !important;
-    overflow-x: hidden !important;
+    height: auto !important;
 }
+
+
 
 div.dashboard-container {
     width: 95% !important;
@@ -48,6 +34,23 @@ div.dashboard-container {
     gap: 20px !important;
 }
 
+
+
+/* Controls container style */
+.controls {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 95% !important;
+    margin: 10px auto !important;
+}
+
+.controls .checklist,
+.controls .date-picker {
+    margin: 0 !important;
+}
 
 
 /* Checklist style */
@@ -88,7 +91,22 @@ div.dashboard-container {
     position: relative !important;
 }
 
-/* Radio button styles */
+
+.date-picker {
+    margin: 20px !important;
+    padding: 10px !important;
+    background-color: rgba(19, 0, 70, 0.3) !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    justify-content: center !important;
+}
+
+
+
+
+/* Radio button style */
 .radio-items {
     margin: 30px !important;
     padding: 10px !important;
@@ -125,13 +143,4 @@ div.dashboard-container {
     background-color: #00aeff !important;
     border-color: #00aeff !important;
     position: relative !important;
-}
-
-
-/* Graph styles */
-.graph {
-    display: inline-block;
-    width: auto;
-    height: auto;
-    margin: 10px;
 }
