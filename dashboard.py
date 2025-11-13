@@ -92,23 +92,27 @@ def update_charts(selected_cryptos, start_date, end_date):
         plot_bgcolor='rgba(255, 255, 255, 0.1)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
         font_color='white',
-        title_font_color='white',
-        title_x=0.5,
-        legend_font_color='white',
+        font_size=18,
+        title=dict(
+            x=0.5,
+            font_color='white',
+            font_size=22,
+        ),
         xaxis=dict(
             gridcolor='rgba(255, 255, 255, 0.1)',
-            zerolinecolor='white',
+            title='Prices (U$D)',
         ),
         yaxis=dict(
             gridcolor='rgba(255, 255, 255, 0.2)',
-            zerolinecolor='white',
-        )
+            title='Date (2019 - 2025)'
+        ),
+        showlegend=False
     )
 
     fig_line.update_traces(
         hovertemplate="<br>".join([
-            "Price: U$ %{customdata[0]:.4f}",
-            "Date: %{customdata[1]|%m/%d/%Y}"
+            "<b>Price:</b> U$ %{customdata[0]:.4f}",
+            "<b>Date:</b> %{customdata[1]|%m/%d/%Y}"
         ])
     )
 
@@ -118,7 +122,9 @@ def update_charts(selected_cryptos, start_date, end_date):
     fig_pie = px.pie(filtered_df, 
                      values='mean',
                      names='ticker',
-                     title='Average Prices Distribution')
+                     title='Average Crypto Prices',
+                     custom_data=['ticker', 'mean']
+                     )
 
     fig_pie.update_layout(
         plot_bgcolor='rgba(255, 255, 255, 0.1)',
@@ -126,7 +132,14 @@ def update_charts(selected_cryptos, start_date, end_date):
         font_color='white',
         title_font_color='white',
         title_x=0.5,
-        legend_font_color='white',
+        showlegend=False
+    )
+
+    fig_pie.update_traces(
+        hovertemplate="<br>".join([
+            "<b>Ticker:</b> %{customdata[0][0]}",
+            "<b>Price:</b> U$ %{customdata[0][1]:.4f}"
+        ])
     )
 
 
