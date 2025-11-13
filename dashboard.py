@@ -130,9 +130,12 @@ def update_charts(selected_cryptos, start_date, end_date):
         plot_bgcolor='rgba(255, 255, 255, 0.1)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
         font_color='white',
-        title_font_color='white',
-        title_x=0.5,
-        showlegend=False
+        font_size=18,
+        title=dict(
+            font_color='white',
+            x=0.5,
+            font_size=22,
+        ),
     )
 
     fig_pie.update_traces(
