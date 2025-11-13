@@ -84,7 +84,9 @@ def update_charts(selected_cryptos, start_date, end_date):
                        x='date',
                        y='mean',
                        color='ticker',
-                       title='Average Crypto Prices Over Time')
+                       title='Average Crypto Prices Over Time',
+                       custom_data=['mean', 'date']
+                       )
 
     fig_line.update_layout(
         plot_bgcolor='rgba(255, 255, 255, 0.1)',
@@ -101,6 +103,13 @@ def update_charts(selected_cryptos, start_date, end_date):
             gridcolor='rgba(255, 255, 255, 0.2)',
             zerolinecolor='white',
         )
+    )
+
+    fig_line.update_traces(
+        hovertemplate="<br>".join([
+            "Price: U$ %{customdata[0]:.4f}",
+            "Date: %{customdata[1]|%m/%d/%Y}"
+        ])
     )
 
 
